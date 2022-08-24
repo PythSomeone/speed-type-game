@@ -1,0 +1,18 @@
+html, body {
+  font-family: 'Courier New', monospace;
+  margin:0;
+  height:100vh;
+  padding: 0;
+
+  background: rgb(63,94,251);
+  background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
+
+  width: 100%;
+  display: grid;
+  align-content: center;
+  place-items: center;
+}
+::ng-deep * {
+  margin: 0;
+  padding: 0;
+}
