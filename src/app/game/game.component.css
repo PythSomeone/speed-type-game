@@ -1,0 +1,37 @@
+p {
+  display: inline;
+  margin-right: 10px;
+  font-size: large;
+  font-weight: bolder;
+}
+.text-box {
+  overflow-wrap: anywhere;
+  border: 2px solid red;
+  border-radius: 25px;
+  padding: 10px;
+  background-color: #ecf0f1;
+  align-self: center;
+  justify-self: center;
+}
+
+form {
+  display: grid;
+  font-size: xxx-large;
+  align-self: center;
+  justify-self: center;
+}
+
+input {
+  align-self: center;
+  justify-self: center;
+  width: 50%;
+  font-size: xxx-large;
+}
+.green-text {
+  color: forestgreen;
+}
+
+.red-text {
+  color: darkred;
+}
+
