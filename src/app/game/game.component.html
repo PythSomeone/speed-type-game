@@ -6,21 +6,7 @@
 <div class="button-box">
   <button class="btn" type="button"><span>Play</span></button>
 </div>
-<!--    <form (ngSubmit)="submit()" #myForm="ngForm">-->
 
-
-<!--      <div>-->
-<!--        <label for="password">Password</label>-->
-<!--        <input type="password" id="password"-->
-<!--               placeholder="Password" [(ngModel)]="form.password"-->
-<!--               name="password" #word="ngModel" required>-->
-<!--      </div>-->
-<!--      <div *ngIf="password.invalid && (password.touched || password.dirty)" [hidden]="password.valid">-->
-<!--        Password field must be valid-->
-<!--      </div>-->
-
-
-<!--    </form>-->
 <div class="input-box">
     <form #myForm="ngForm">
       <input name="current" (keyup)="onKey($event, myForm)" [(ngModel)]="currentTypedWord" [value]="currentTypedWord"/>

@@ -1,9 +1,10 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {WordForm} from "../types/Word";
 import {WordService} from "./word.service";
 import {NgForm} from "@angular/forms";
 import {Subscription, timer} from "rxjs";
 import {formatNumber} from "@angular/common";
+import {GameStateService} from "./game-state.service";
 
 @Component({
   selector: 'app-game',
@@ -29,15 +30,26 @@ export class GameComponent implements OnInit {
   timeLeft: number = 10;
   subscribeTimer: any;
 
+  stateSubscription : Subscription | undefined
 
 
 
-  constructor(private wordService: WordService, private cd: ChangeDetectorRef) {
+
+
+  constructor(
+    private wordService: WordService,
+    private gameStateService : GameStateService
+  ) {
 
   }
 
   ngOnInit(): void {
 
+    this.stateSubscription = this.gameStateService.observable.subscribe(state=> {
+      if(state){
+        this.words = this.wordService.getWords()
+      }
+    })
 
     this.words = this.wordService.getWords()
 
@@ -58,15 +70,9 @@ export class GameComponent implements OnInit {
       if (this.subscribeTimer <= 0) {
         this.stopTimer()
         prompt("You have scored : " + this.wordsPerMinute.toString())
-        this.refresh()
+        this.gameStateService.setState(true)
       }
     });
-  }
-
-  refresh() {
-    let value = "____TempValue____";
-    this.cd.detectChanges();
-    value = "";
   }
 
   onKey(event: any, myForm: NgForm) { // without type info
