@@ -1,6 +1,6 @@
 <div class="text-box">
-  <ng-container *ngFor="let word of words;let i=index">
-    <p id="{{i}}" >{{word}}</p>
+  <ng-container *ngFor="let word of words;let i=index; let f=first">
+    <p id="{{i}}" [ngClass]="{'current-word': f}" >{{word}}</p>
   </ng-container>
 </div>
 <div class="button-box">

@@ -34,13 +34,10 @@ export class GameComponent implements OnInit {
 
 
 
-
-
   constructor(
     private wordService: WordService,
     private gameStateService : GameStateService
   ) {
-
   }
 
   ngOnInit(): void {
@@ -60,6 +57,13 @@ export class GameComponent implements OnInit {
 
   stopTimer() {
     this.subscription?.unsubscribe()
+    this.timerSet = false
+    this.subscribeTimer = null
+    this.points = 0
+    this.wordsPerMinute = 0
+    this.currentTypedWord = ''
+    this.currentWordIndex = 0
+    this.score = ''
   }
 
   observableTimer() {
@@ -68,8 +72,8 @@ export class GameComponent implements OnInit {
     this.subscription = timerSubscription.subscribe(val => {
       this.subscribeTimer = this.timeLeft - val;
       if (this.subscribeTimer <= 0) {
-        this.stopTimer()
         prompt("You have scored : " + this.wordsPerMinute.toString())
+        this.stopTimer()
         this.gameStateService.setState(true)
       }
     });
@@ -81,9 +85,16 @@ export class GameComponent implements OnInit {
     }
     let typedWord = event.target.value
 
+    let element = document.getElementById(this.currentWordIndex.toString())
+
+
+
+
+
     if (typedWord[typedWord.length - 1].includes(' ', '\t', '\n')) {
 
-      let element = document.getElementById(this.currentWordIndex.toString())
+
+
 
       if (typedWord.slice(0, -1).toString() == this.currentWord) {
         element!.className = "green-text"
@@ -96,6 +107,11 @@ export class GameComponent implements OnInit {
       this.currentWord = this.words[++this.currentWordIndex]
       this.wordsPerMinute = this.points / ((this.timeLeft - this.subscribeTimer) / 60)
       this.score = formatNumber(this.wordsPerMinute, 'en-US','1.0-1' )
+
+      element = document.getElementById(this.currentWordIndex.toString())
+      if(!(element!.className === "current-word")){
+        element!.className = "current-word"
+      }
     }
 
 
