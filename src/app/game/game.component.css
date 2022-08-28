@@ -26,6 +26,8 @@ input {
   justify-self: center;
   width: 50%;
   font-size: xxx-large;
+  border-radius: 8px;
+  text-decoration: white;
 }
 .green-text {
   color: forestgreen;

@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {WordForm} from "../types/Word";
 import {WordService} from "./word.service";
-import {NgForm} from "@angular/forms";
 import {Subscription, timer} from "rxjs";
 import {formatNumber} from "@angular/common";
 import {GameStateService} from "./game-state.service";
+import {ModalService} from "../_modal";
 
 @Component({
   selector: 'app-game',
@@ -13,6 +13,7 @@ import {GameStateService} from "./game-state.service";
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class GameComponent implements OnInit {
+  finishedLoadingModal: boolean = false;
   form: WordForm = {
     word: '',
   }
@@ -22,7 +23,8 @@ export class GameComponent implements OnInit {
   currentWordIndex = 0;
   points = 0;
   wordsPerMinute = 0
-  score: string = ''
+  score: string = '0'
+  lastScore: string = '0'
 
   subscription: Subscription | undefined
 
@@ -30,20 +32,24 @@ export class GameComponent implements OnInit {
   timeLeft: number = 10;
   subscribeTimer: any;
 
-  stateSubscription : Subscription | undefined
+  stateSubscription: Subscription | undefined
 
+
+  bodyText: string = '';
 
 
   constructor(
     private wordService: WordService,
-    private gameStateService : GameStateService
+    private gameStateService: GameStateService,
+    private modalService: ModalService
   ) {
   }
 
   ngOnInit(): void {
+    this.bodyText = 'This text can be updated in modal 1';
 
-    this.stateSubscription = this.gameStateService.observable.subscribe(state=> {
-      if(state){
+    this.stateSubscription = this.gameStateService.observable.subscribe(state => {
+      if (state) {
         this.words = this.wordService.getWords()
       }
     })
@@ -66,20 +72,30 @@ export class GameComponent implements OnInit {
     this.score = ''
   }
 
+  openModal(id: string) {
+    this.modalService.open(id);
+  }
+
+  closeModal(id: string) {
+    this.modalService.close(id);
+  }
+
   observableTimer() {
     this.timerSet = true;
     const timerSubscription = timer(1000, 1000);
     this.subscription = timerSubscription.subscribe(val => {
       this.subscribeTimer = this.timeLeft - val;
       if (this.subscribeTimer <= 0) {
-        prompt("You have scored : " + this.wordsPerMinute.toString())
+        this.lastScore = this.score
+        this.openModal('custom-modal-2')
         this.stopTimer()
         this.gameStateService.setState(true)
+
       }
     });
   }
 
-  onKey(event: any, myForm: NgForm) { // without type info
+  onKey(event: any) { // without type info
     if (!this.timerSet) {
       this.observableTimer()
     }
@@ -88,12 +104,7 @@ export class GameComponent implements OnInit {
     let element = document.getElementById(this.currentWordIndex.toString())
 
 
-
-
-
     if (typedWord[typedWord.length - 1].includes(' ', '\t', '\n')) {
-
-
 
 
       if (typedWord.slice(0, -1).toString() == this.currentWord) {
@@ -106,10 +117,10 @@ export class GameComponent implements OnInit {
       this.currentTypedWord = ''
       this.currentWord = this.words[++this.currentWordIndex]
       this.wordsPerMinute = this.points / ((this.timeLeft - this.subscribeTimer) / 60)
-      this.score = formatNumber(this.wordsPerMinute, 'en-US','1.0-1' )
+      this.score = formatNumber(this.wordsPerMinute, 'en-US', '1.0-1')
 
       element = document.getElementById(this.currentWordIndex.toString())
-      if(!(element!.className === "current-word")){
+      if (!(element!.className === "current-word")) {
         element!.className = "current-word"
       }
     }

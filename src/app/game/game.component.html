@@ -1,15 +1,27 @@
+<jw-modal id="custom-modal-2" style="text-align: center" (finishedLoading)="finishedLoadingModal = $event">
+  <p>Congratulations!</p>
+  <br>
+  <br>
+  <p>Your score is</p>
+  <h1>WPM : {{lastScore}}</h1>
+  <button class="btn" style="height: 60px" (click)="closeModal('custom-modal-2');">Close</button>
+</jw-modal>
+
 <div class="text-box">
   <ng-container *ngFor="let word of words;let i=index; let f=first">
     <p id="{{i}}" [ngClass]="{'current-word': f}" >{{word}}</p>
   </ng-container>
 </div>
 <div class="button-box">
-  <button class="btn" type="button"><span>Play</span></button>
+  <div style="height: 40px">
+    <h2 *ngIf="!timerSet" style="text-align: center">Start typing...</h2>
+  </div>
+
 </div>
 
 <div class="input-box">
     <form #myForm="ngForm">
-      <input name="current" (keyup)="onKey($event, myForm)" [(ngModel)]="currentTypedWord" [value]="currentTypedWord"/>
+      <input name="current" (keyup)="onKey($event)" [(ngModel)]="currentTypedWord" [value]="currentTypedWord"/>
     </form>
   </div>
   {{points}}
@@ -17,3 +29,6 @@
 {{subscribeTimer}} Seconds Left....
 <hr>
 {{score}} WPM
+
+
+

@@ -12,7 +12,7 @@ export class WordService {
 
   getWords(){
     let selectedWords:string[] = []
-    for(let i = 0;i<100;i++){
+    for(let i = 0;i<50;i++){
       selectedWords.push(<string>this.wordsArray[Math.floor(Math.random() * this.wordsArray.length)])
     }
     return selectedWords
