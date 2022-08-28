@@ -1,4 +1,4 @@
-<jw-modal id="custom-modal-2" style="text-align: center" (finishedLoading)="finishedLoadingModal = $event">
+<jw-modal id="custom-modal-2" style="text-align: center">
   <p>Congratulations!</p>
   <br>
   <br>
@@ -14,7 +14,7 @@
 </div>
 <div class="button-box">
   <div style="height: 40px">
-    <h2 *ngIf="!timerSet" style="text-align: center">Start typing...</h2>
+    <h2 *ngIf="!timerService.timerSet" style="text-align: center">Start typing...</h2>
   </div>
 
 </div>
@@ -26,7 +26,7 @@
   </div>
   {{points}}
 <hr>
-{{subscribeTimer}} Seconds Left....
+{{timerService.subscribeTimer}} Seconds Left....
 <hr>
 {{score}} WPM
 
