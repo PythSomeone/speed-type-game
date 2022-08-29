@@ -7,28 +7,47 @@
   <button class="btn" style="height: 60px" (click)="closeModal('custom-modal-2');">Close</button>
 </jw-modal>
 
-<div class="text-box">
-  <ng-container *ngFor="let word of words;let i=index; let f=first">
-    <p id="{{i}}" [ngClass]="{'current-word': f}" >{{word}}</p>
-  </ng-container>
-</div>
-<div class="button-box">
-  <div style="height: 40px">
-    <h2 *ngIf="!timerService.timerSet" style="text-align: center">Start typing...</h2>
+<div class="menu">
+  <div class="text-box">
+    <ng-container *ngFor="let word of words;let i=index; let f=first">
+      <p id="{{i}}" [ngClass]="{'current-word': f}">{{word}}</p>
+    </ng-container>
+  </div>
+  <div class="button-box">
+    <div style="height: 40px">
+      <h2 *ngIf="!timerService.timerSet" style="text-align: center">Start typing</h2>
+    </div>
+
   </div>
 
-</div>
-
-<div class="input-box">
+  <div class="input-box">
     <form #myForm="ngForm">
-      <input name="current" (keyup)="onKey($event)" [(ngModel)]="currentTypedWord" [value]="currentTypedWord"/>
+      <input name="current" id="input" (keyup)="onKey($event)" [(ngModel)]="currentTypedWord"
+             [value]="currentTypedWord"/>
     </form>
   </div>
-  {{points}}
-<hr>
-{{timerService.subscribeTimer}} Seconds Left....
-<hr>
-{{score}} WPM
+  <div class="stats-box">
+    <div class="stat">
+      Guessed words:
+      <br>
+      {{points}}
+    </div>
+    <div class="stat">
+      Time left:
+      <br>
+      <ng-container *ngIf="timerService.subscribeTimer;else other_content">
+        {{timerService.subscribeTimer * 1000 | date:'mm:ss'}}
+      </ng-container>
+      <ng-template #other_content>{{timerService.timeLeft | date:'mm:ss'}}</ng-template>
 
+    </div>
+    <div class="stat">
+      WPM
+      <br>
+      {{score}}
+    </div>
+
+  </div>
+</div>
 
 

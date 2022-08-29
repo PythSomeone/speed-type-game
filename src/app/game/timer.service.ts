@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, Subscription, timer} from "rxjs";
 
 @Injectable({
@@ -7,7 +7,7 @@ import {BehaviorSubject, Observable, Subscription, timer} from "rxjs";
 export class TimerService {
 
   timerSet: boolean = false;
-  timeLeft: number = 10;
+  timeLeft: number = 60;
   subscribeTimer: any;
   timerSubscription: Subscription | undefined
 
@@ -15,7 +15,7 @@ export class TimerService {
 
   observable: Observable<boolean> = this.behaviourSubject.asObservable()
 
-  timerEnd(value:boolean) {
+  timerEnd(value: boolean) {
     this.behaviourSubject.next(value)
   }
 

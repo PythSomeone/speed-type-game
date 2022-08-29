@@ -70,7 +70,22 @@
 .menu {
   height: 100%;
   width: 50%;
+  margin: auto;
   display: grid;
+  row-gap: 50px;
   align-content: center;
   place-items: center;
+}
+@media screen and (max-width: 600px) {
+  .menu {
+    width: 100% !important;
+  }
+
+}
+
+@media screen and (max-width: 300px) {
+  .menu {
+    row-gap: 0 !important;
+  }
+
 }

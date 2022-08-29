@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {WordForm} from "../types/Word";
 import {WordService} from "./word.service";
 import {Subscription} from "rxjs";
@@ -11,7 +11,7 @@ import {TimerService} from "./timer.service";
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
-  changeDetection: ChangeDetectionStrategy.Default
+  encapsulation: ViewEncapsulation.None
 })
 export class GameComponent implements OnInit {
   form: WordForm = {
@@ -29,6 +29,7 @@ export class GameComponent implements OnInit {
   timerStateSubscription: Subscription | undefined
   stateSubscription: Subscription | undefined
 
+  inputField = document.getElementById("input")
 
 
   constructor(
@@ -41,29 +42,37 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.loadWords()
+
     this.stateSubscription = this.gameStateService.observable.subscribe(state => {
       if (state) {
-        this.words = this.wordService.getWords()
+        this.loadWords()
 
       }
     })
     this.timerStateSubscription = this.timerService.observable.subscribe(state => {
       if (state) {
-        this.words = this.wordService.getWords()
         this.lastScore = this.score
         this.openModal('custom-modal-2')
+        this.loadWords()
+
         this.points = 0
         this.wordsPerMinute = 0
-        this.currentTypedWord = ''
-        this.currentWordIndex = 0
         this.score = ''
+        this.inputField!.blur()
+
       }
     })
 
-    this.words = this.wordService.getWords()
 
+  }
+
+  loadWords() {
+    this.words = this.wordService.getWords();
+    Array.from(document.querySelectorAll('.green-text,.red-text,.current-word')).forEach((el) => el.classList.remove('green-text', 'red-text', 'current-word'));
+    this.currentTypedWord = '';
+    this.currentWordIndex = 0;
     this.currentWord = this.words[this.currentWordIndex];
-
   }
 
   openModal(id: string) {
@@ -91,10 +100,17 @@ export class GameComponent implements OnInit {
         element!.className = "red-text"
       }
 
-      this.currentTypedWord = ''
-      this.currentWord = this.words[++this.currentWordIndex]
+
       this.wordsPerMinute = this.points / ((this.timerService.timeLeft - this.timerService.subscribeTimer) / 60)
       this.score = formatNumber(this.wordsPerMinute, 'en-US', '1.0-1')
+      this.currentTypedWord = ''
+      if (this.words.length === this.currentWordIndex + 1) {
+        event.target.blur();
+        this.gameStateService.setState(true)
+        return;
+      }
+
+      this.currentWord = this.words[++this.currentWordIndex]
 
       element = document.getElementById(this.currentWordIndex.toString())
       if (!(element!.className === "current-word")) {

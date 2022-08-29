@@ -1,10 +1,13 @@
 p {
-  display: inline;
   margin-right: 10px;
   font-size: large;
   font-weight: bolder;
+  position: relative;
+  display: inline-block;
 }
+
 .text-box {
+  white-space: pre-wrap;
   overflow-wrap: anywhere;
   border: 2px solid red;
   border-radius: 25px;
@@ -13,6 +16,27 @@ p {
   align-self: center;
   justify-self: center;
 }
+
+.stats-box {
+
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: start;
+
+
+}
+
+.stat {
+  width: 100%;
+  text-align: center;
+}
+
+:host {
+  display: contents;
+}
+
 
 form {
   display: grid;
@@ -29,6 +53,7 @@ input {
   border-radius: 8px;
   text-decoration: white;
 }
+
 .green-text {
   color: forestgreen;
 }
