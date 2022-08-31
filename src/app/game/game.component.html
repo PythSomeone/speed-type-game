@@ -22,7 +22,7 @@
 
   <div class="input-box">
     <form #myForm="ngForm">
-      <input name="current" id="input" (keyup)="onKey($event)" [(ngModel)]="currentTypedWord"
+      <input name="current" #current id="input" (keyup)="onKey($event)" [(ngModel)]="currentTypedWord"
              [value]="currentTypedWord"/>
     </form>
   </div>

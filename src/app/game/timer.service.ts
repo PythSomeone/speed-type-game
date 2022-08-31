@@ -7,7 +7,7 @@ import {BehaviorSubject, Observable, Subscription, timer} from "rxjs";
 export class TimerService {
 
   timerSet: boolean = false;
-  timeLeft: number = 60;
+  timeLeft: number = 5;
   subscribeTimer: any;
   timerSubscription: Subscription | undefined
 

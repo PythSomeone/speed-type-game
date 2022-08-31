@@ -1,5 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {WordForm} from "../types/Word";
+import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {WordService} from "./word.service";
 import {Subscription} from "rxjs";
 import {formatNumber} from "@angular/common";
@@ -14,9 +13,7 @@ import {TimerService} from "./timer.service";
   encapsulation: ViewEncapsulation.None
 })
 export class GameComponent implements OnInit {
-  form: WordForm = {
-    word: '',
-  }
+  @ViewChild('current') current: ElementRef | undefined;
   words: string[] = [];
   currentTypedWord: string = '';
   currentWord: string = '';
@@ -29,7 +26,6 @@ export class GameComponent implements OnInit {
   timerStateSubscription: Subscription | undefined
   stateSubscription: Subscription | undefined
 
-  inputField = document.getElementById("input")
 
 
   constructor(
@@ -52,15 +48,13 @@ export class GameComponent implements OnInit {
     })
     this.timerStateSubscription = this.timerService.observable.subscribe(state => {
       if (state) {
+        this.current?.nativeElement.blur()
         this.lastScore = this.score
         this.openModal('custom-modal-2')
         this.loadWords()
-
         this.points = 0
         this.wordsPerMinute = 0
         this.score = ''
-        this.inputField!.blur()
-
       }
     })
 
