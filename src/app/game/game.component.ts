@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {WordService} from "./word.service";
 import {Subscription} from "rxjs";
 import {formatNumber} from "@angular/common";
@@ -9,11 +9,12 @@ import {TimerService} from "./timer.service";
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
-  styleUrls: ['./game.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
   @ViewChild('current') current: ElementRef | undefined;
+
+
   words: string[] = [];
   currentTypedWord: string = '';
   currentWord: string = '';
@@ -26,19 +27,19 @@ export class GameComponent implements OnInit {
   timerStateSubscription: Subscription | undefined
   stateSubscription: Subscription | undefined
 
-
-
   constructor(
     public wordService: WordService,
     public gameStateService: GameStateService,
     public modalService: ModalService,
     public timerService: TimerService
   ) {
+    this.current?.nativeElement.focus()
   }
 
   ngOnInit(): void {
 
     this.loadWords()
+
 
     this.stateSubscription = this.gameStateService.observable.subscribe(state => {
       if (state) {
@@ -51,15 +52,17 @@ export class GameComponent implements OnInit {
         this.current?.nativeElement.blur()
         this.lastScore = this.score
         this.openModal('custom-modal-2')
+
         this.loadWords()
         this.points = 0
         this.wordsPerMinute = 0
-        this.score = ''
+        this.score = '0'
       }
     })
 
 
   }
+
 
   loadWords() {
     this.words = this.wordService.getWords();
@@ -75,45 +78,50 @@ export class GameComponent implements OnInit {
 
   closeModal(id: string) {
     this.modalService.close(id);
+    this.current?.nativeElement.focus()
   }
 
-  onKey(event: any) {
-    if (!this.timerService.timerSet) {
-      this.timerService.observableTimer()
-    }
+  onKey(event: any = " ") {
     let typedWord = event.target.value
 
-    let element = document.getElementById(this.currentWordIndex.toString())
+    if (!(typedWord[0] === undefined)) {
 
-    if (typedWord[typedWord.length - 1].includes(' ', '\t', '\n')) {
-
-      if (typedWord.slice(0, -1).toString() == this.currentWord) {
-        element!.className = "green-text"
-        this.points++;
-      } else {
-        element!.className = "red-text"
+      if (!this.timerService.getTimerSet() && !typedWord[0].includes('\n')) {
+        this.timerService.observableTimer()
       }
 
 
-      this.wordsPerMinute = this.points / ((this.timerService.timeLeft - this.timerService.subscribeTimer) / 60)
-      this.score = formatNumber(this.wordsPerMinute, 'en-US', '1.0-1')
-      this.currentTypedWord = ''
-      if (this.words.length === this.currentWordIndex + 1) {
-        event.target.blur();
-        this.gameStateService.setState(true)
-        return;
+      let element = document.getElementById(this.currentWordIndex.toString())
+
+      if (typedWord[typedWord.length - 1].includes(' ', '\t')) {
+
+        if (typedWord.slice(0, -1).toString() == this.currentWord) {
+          element!.className = "green-text"
+          this.points++;
+        } else {
+          element!.className = "red-text"
+        }
+
+
+        this.wordsPerMinute = this.points / ((this.timerService.getTimeLeft() - this.timerService.getSubscribeTimer()) / 60)
+        this.score = formatNumber(this.wordsPerMinute, 'en-US', '1.0-1')
+        this.currentTypedWord = ''
+        if (this.words.length === this.currentWordIndex + 1) {
+          this.gameStateService.setState(true)
+          return;
+        }
+
+        this.currentWord = this.words[++this.currentWordIndex]
+
+        element = document.getElementById(this.currentWordIndex.toString())
+        if (!(element!.className === "current-word")) {
+          element!.className = "current-word"
+        }
       }
 
-      this.currentWord = this.words[++this.currentWordIndex]
 
-      element = document.getElementById(this.currentWordIndex.toString())
-      if (!(element!.className === "current-word")) {
-        element!.className = "current-word"
-      }
     }
 
 
   }
-
-
 }

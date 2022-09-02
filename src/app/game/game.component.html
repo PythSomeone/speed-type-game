@@ -4,7 +4,15 @@
   <br>
   <p>Your score is</p>
   <h1>WPM : {{lastScore}}</h1>
-  <button class="btn" style="height: 60px" (click)="closeModal('custom-modal-2');">Close</button>
+  <button
+    class="btn"
+    #btnFocus [autofocus]="btnFocus.focus()"
+    (keydown.space)="$event.preventDefault();"
+    (keyup.enter)="closeModal('custom-modal-2')"
+    style="height: 60px"
+    (click)="closeModal('custom-modal-2')">
+    Close
+  </button>
 </jw-modal>
 
 <div class="menu">
@@ -15,14 +23,14 @@
   </div>
   <div class="button-box">
     <div style="height: 40px">
-      <h2 *ngIf="!timerService.timerSet" style="text-align: center">Start typing</h2>
+      <h2 *ngIf="!timerService.getTimerSet()" style="text-align: center">Start typing</h2>
     </div>
 
   </div>
 
   <div class="input-box">
     <form #myForm="ngForm">
-      <input name="current" #current id="input" (keyup)="onKey($event)" [(ngModel)]="currentTypedWord"
+      <input name="current" autofocus #current id="input" (keyup)="onKey($event)" [(ngModel)]="currentTypedWord"
              [value]="currentTypedWord"/>
     </form>
   </div>
@@ -35,10 +43,10 @@
     <div class="stat">
       Time left:
       <br>
-      <ng-container *ngIf="timerService.subscribeTimer;else other_content">
-        {{timerService.subscribeTimer * 1000 | date:'mm:ss'}}
+      <ng-container *ngIf="timerService.getSubscribeTimer()!==undefined;else other_content">
+        {{timerService.getSubscribeTimer() * 1000 | date:'mm:ss'}}
       </ng-container>
-      <ng-template #other_content>{{timerService.timeLeft | date:'mm:ss'}}</ng-template>
+      <ng-template #other_content>{{timerService.getTimeLeft() | date:'mm:ss'}}</ng-template>
 
     </div>
     <div class="stat">

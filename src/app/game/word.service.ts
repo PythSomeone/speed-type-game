@@ -7,13 +7,11 @@ import words from '../../assets/words.json';
 export class WordService {
 
   wordList = words;
-  wordsArray = Array.from(this.wordList)
 
   getWords() {
-    console.log(this.wordList)
     let selectedWords: string[] = []
     for (let i = 0; i < 50; i++) {
-      selectedWords.push(<string>this.wordsArray[Math.floor(Math.random() * this.wordsArray.length)])
+      selectedWords.push(<string>this.wordList[Math.floor(Math.random() * this.wordList.length)])
     }
     return selectedWords
   }
