@@ -20,7 +20,6 @@ export class GameComponent implements OnInit {
   currentWord: string = '';
   currentWordIndex = 0;
   points = 0;
-  wordsPerMinute = 0
   score: string = '0'
   lastScore: string = '0'
 
@@ -55,7 +54,6 @@ export class GameComponent implements OnInit {
 
         this.loadWords()
         this.points = 0
-        this.wordsPerMinute = 0
         this.score = '0'
       }
     })
@@ -90,11 +88,8 @@ export class GameComponent implements OnInit {
         this.timerService.observableTimer()
       }
 
-
       let element = document.getElementById(this.currentWordIndex.toString())
-
       if (typedWord[typedWord.length - 1].includes(' ', '\t')) {
-
         if (typedWord.slice(0, -1).toString() == this.currentWord) {
           element!.className = "green-text"
           this.points++;
@@ -102,26 +97,30 @@ export class GameComponent implements OnInit {
           element!.className = "red-text"
         }
 
-
-        this.wordsPerMinute = this.points / ((this.timerService.getTimeLeft() - this.timerService.getSubscribeTimer()) / 60)
-        this.score = formatNumber(this.wordsPerMinute, 'en-US', '1.0-1')
+        this.score = this.calculateWordsPerMinute();
         this.currentTypedWord = ''
+
         if (this.words.length === this.currentWordIndex + 1) {
           this.gameStateService.setState(true)
-          return;
+        }else {
+          this.currentWord = this.words[++this.currentWordIndex]
+
+          element = document.getElementById(this.currentWordIndex.toString())
+          if (!(element!.className === "current-word")) {
+            element!.className = "current-word"
+          }
         }
 
-        this.currentWord = this.words[++this.currentWordIndex]
 
-        element = document.getElementById(this.currentWordIndex.toString())
-        if (!(element!.className === "current-word")) {
-          element!.className = "current-word"
-        }
       }
 
 
     }
 
 
+  }
+  private calculateWordsPerMinute(){
+    let wordsPerMinute = this.points / ((this.timerService.getTimeLeft() - this.timerService.getSubscribeTimer()) / 60)
+    return formatNumber(wordsPerMinute, 'en-US', '1.0-1')
   }
 }
