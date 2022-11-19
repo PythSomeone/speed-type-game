@@ -1,4 +1,14 @@
 
 <div class="button-box">
   <button class="btn" type="button" routerLink="/game"><span>Play</span></button>
+  <ng-container *ngIf="userLoggedIn">
+    <button class="btn" type="button" (click)="logout()"><span>Logout</span></button>
+  </ng-container>
+  <ng-container *ngIf="!userLoggedIn">
+    <button class="btn" type="button" routerLink="/login"><span>Login</span></button>
+    <button class="btn" type="button" routerLink="/register"><span>Register</span></button>
+  </ng-container>
+
+
+
 </div>

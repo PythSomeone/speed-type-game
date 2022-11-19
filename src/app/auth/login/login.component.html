@@ -1,0 +1,30 @@
+<jw-modal id="custom-modal-2" style="text-align: center">
+  {{errors}}
+  <button
+    class="btn"
+    (keydown.space)="$event.preventDefault();"
+    (keyup.enter)="closeModal('custom-modal-2')"
+    style="height: 60px"
+    (click)="closeModal('custom-modal-2')">
+    Close
+  </button>
+</jw-modal>
+
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+
+
+  <input type="email" placeholder="Email" formControlName="email">
+
+
+  <input type="password" placeholder="Password" formControlName="password">
+
+
+  <button type="submit" [disabled]="!loginForm.valid">Login</button>
+
+</form>
+<ng-container *ngIf="errors">
+  <p>{{errors}}</p>
+</ng-container>
+<ng-container *ngIf="token">
+  <p>{{token.token}}</p>
+</ng-container>

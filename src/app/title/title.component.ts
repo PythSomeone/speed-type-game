@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-title',
@@ -7,9 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TitleComponent implements OnInit {
 
-  constructor() { }
+  userLoggedIn: boolean = false
 
-  ngOnInit(): void {
+  constructor() {
   }
 
+  ngOnInit(): void {
+
+    this.userLoggedIn = !!localStorage.getItem('token');
+    console.log(localStorage.getItem('token'))
+  }
+
+  logout() {
+    localStorage.removeItem('token')
+    this.ngOnInit()
+  }
 }
