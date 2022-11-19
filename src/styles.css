@@ -1,26 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+
 .btn {
   position: relative;
   width: 200px;
   display: block;
   margin: 30px auto;
   padding: 0;
-
   overflow: hidden;
-
   border-width: 0;
   outline: none;
   border-radius: 2px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
 
-  background-color: #2ecc71;
+  background-color: #0288c4;
   color: #ecf0f1;
 
   transition: background-color .3s;
 }
 
 .btn:hover, .btn:focus {
-  background-color: #27ae60;
+  background-color: #0097dc;
 }
 
 .btn > * {
@@ -89,3 +92,53 @@
   }
 
 }
+
+.title {
+  color: #eee;
+  font-family: sans-serif;
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #eee;
+  font-family: sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+.form-box {
+  margin: auto;
+  padding: 20px 0;
+  text-align: center;
+  align-self: center;
+  justify-self: center;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+  width: 320px;
+  box-sizing: border-box;
+}
+
+.input-field {
+  border-radius: 4px;
+  background: rgba(255,255,255,0.4);
+  margin-bottom: 20px;
+  border: 0;
+  padding: 0;
+  z-index: 1;
+  border-bottom: 2px solid #eee;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 30px;
+}
+
+form.input{
+  background: transparent;
+  font-family: 'Courier New', monospace;
+
+}
+

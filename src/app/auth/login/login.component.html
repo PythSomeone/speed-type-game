@@ -1,0 +1,43 @@
+<jw-modal id="login-failed" style="text-align: center">
+  <ng-container *ngFor="let error of errors">
+    <p>{{error}}</p>
+  </ng-container>
+  <button
+    class="btn"
+    (keydown.space)="$event.preventDefault();"
+    (keyup.enter)="closeModal('custom-modal-2')"
+    style="height: 60px"
+    (click)="closeModal('custom-modal-2')">
+    Close
+  </button>
+</jw-modal>
+
+<jw-modal id="login-successful" style="text-align: center">
+  <h1>"You are now logged in"</h1>
+  <button
+    class="btn"
+    (keydown.space)="$event.preventDefault();"
+    (keyup.enter)="closeModal('login-successful')"
+    style="height: 60px"
+    (click)="closeModal('login-successful')">
+    Close
+  </button>
+</jw-modal>
+
+<form class="form-box" [formGroup]="loginForm" (ngSubmit)="login()">
+
+  <div class="title">Log in</div>
+
+
+  <input type="email" placeholder="Email" class="input-field" formControlName="email">
+
+
+  <input type="password" placeholder="Password" class="input-field" formControlName="password">
+
+
+  <button class="btn" type="submit" [disabled]="!loginForm.valid"><span>Login</span></button>
+
+
+</form>
+
+
