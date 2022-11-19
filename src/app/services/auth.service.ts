@@ -20,4 +20,8 @@ export class AuthService {
     return this.http.post<any>(this.baseUrl + '/login', body, {headers}) as Observable<TokenResponse>;
   }
 
+  register(body: string): Observable<TokenResponse> {
+    let headers = new HttpHeaders({'Content-Type': 'application/json'}); // ... Set content type to JSON
+    return this.http.post<any>(this.baseUrl + '/register', body, {headers}) as Observable<TokenResponse>;
+  }
 }

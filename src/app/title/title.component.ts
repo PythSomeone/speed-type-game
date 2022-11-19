@@ -13,9 +13,7 @@ export class TitleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.userLoggedIn = !!localStorage.getItem('token');
-    console.log(localStorage.getItem('token'))
   }
 
   logout() {

@@ -10,21 +10,20 @@
   </button>
 </jw-modal>
 
-<form [formGroup]="loginForm" (ngSubmit)="login()">
+<form class="form-box" [formGroup]="loginForm" (ngSubmit)="login()">
+
+  <div class="title">Log in</div>
 
 
-  <input type="email" placeholder="Email" formControlName="email">
+  <input type="email" placeholder="Email" class="input-field" formControlName="email">
 
 
-  <input type="password" placeholder="Password" formControlName="password">
+  <input type="password" placeholder="Password" class="input-field" formControlName="password">
 
 
-  <button type="submit" [disabled]="!loginForm.valid">Login</button>
+  <button class="btn" type="submit" [disabled]="!loginForm.valid"><span>Login</span></button>
+
 
 </form>
-<ng-container *ngIf="errors">
-  <p>{{errors}}</p>
-</ng-container>
-<ng-container *ngIf="token">
-  <p>{{token.token}}</p>
-</ng-container>
+
+
