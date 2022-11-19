@@ -43,10 +43,12 @@ export class LoginComponent implements OnInit {
       next: data => {
         localStorage.setItem('token', data.token)
         this.router.navigate([''])
+        this.openModal('login-successful')
       },
       error: error => {
-        this.errors = error.error.message;
-        this.openModal('custom-modal-2')
+        console.log(error.error.errors)
+        this.errors = error.error.errors || error.errors;
+        this.openModal('register-failed')
       }
     })
   }

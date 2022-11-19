@@ -50,7 +50,7 @@ export class RegisterComponent implements OnInit {
       error: error => {
         console.log(error.error.errors)
         this.errors = error.error.errors || error.errors;
-        this.openModal('custom-modal-2')
+        this.openModal('register-successful')
       }
     })
   }

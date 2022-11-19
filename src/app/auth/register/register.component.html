@@ -1,15 +1,13 @@
-<jw-modal id="custom-modal-2" style="text-align: center">
-
+<jw-modal id="register-failed" style="text-align: center">
   <ng-container *ngFor="let error of errors">
     <p>{{error}}</p>
-
   </ng-container>
   <button
     class="btn"
     (keydown.space)="$event.preventDefault();"
-    (keyup.enter)="closeModal('custom-modal-2')"
+    (keyup.enter)="closeModal('register-failed')"
     style="height: 60px"
-    (click)="closeModal('custom-modal-2')">
+    (click)="closeModal('register-failed')">
     Close
   </button>
 </jw-modal>
@@ -19,9 +17,9 @@
   <button
     class="btn"
     (keydown.space)="$event.preventDefault();"
-    (keyup.enter)="closeModal('custom-modal-2')"
+    (keyup.enter)="closeModal('register-successful')"
     style="height: 60px"
-    (click)="closeModal('custom-modal-2')">
+    (click)="closeModal('register-successful')">
     Close
   </button>
 </jw-modal>
