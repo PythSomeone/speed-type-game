@@ -1,6 +1,6 @@
 
 export class Timer {
   timerSet: boolean = false;
-  timeLeft: number = 5;
+  timeLeft: number = 60;
   subscribeTimer: any = this.timeLeft;
 }

@@ -4,6 +4,7 @@
   <br>
   <p>Your score is</p>
   <h1>WPM : {{lastScore}}</h1>
+  <button class="btn" style="height: 60px" (click)="saveScore(+lastScore)">Save score</button>
   <button
     class="btn"
     #btnFocus [autofocus]="btnFocus.focus()"
@@ -11,6 +12,38 @@
     (keyup.enter)="closeModal('custom-modal-2')"
     style="height: 60px"
     (click)="closeModal('custom-modal-2')">
+    Close
+  </button>
+  <ng-container *ngFor="let error of errors">
+    <p>{{error}}</p>
+  </ng-container>
+  <h1 *ngIf="showSuccessfulScoreSave" >Your score was recorded!</h1>
+</jw-modal>
+
+<jw-modal id="set-score-successful" style="text-align: center">
+  <p>Your score was recorded!</p>
+  <button
+    class="btn"
+    #btnFocus [autofocus]="btnFocus.focus()"
+    (keydown.space)="$event.preventDefault();"
+    (keyup.enter)="closeModal('set-score-successful')"
+    style="height: 60px"
+    (click)="closeModal('set-score-successful')">
+    Close
+  </button>
+</jw-modal>
+
+<jw-modal id="set-score-failed" style="text-align: center">
+  <ng-container *ngFor="let error of errors">
+    <p>{{error}}</p>
+  </ng-container>
+  <button
+    class="btn"
+    #btnFocus [autofocus]="btnFocus.focus()"
+    (keydown.space)="$event.preventDefault();"
+    (keyup.enter)="closeModal('set-score-failed')"
+    style="height: 60px"
+    (click)="closeModal('set-score-failed')">
     Close
   </button>
 </jw-modal>
@@ -30,7 +63,7 @@
 
   <div class="input-box">
     <form #myForm="ngForm">
-      <input name="current" autofocus #current id="input" (keyup)="onKey($event)" [(ngModel)]="currentTypedWord"
+      <input autocomplete="false" name="current" autofocus #current id="input" (keyup)="onKey($event)" [(ngModel)]="currentTypedWord"
              [value]="currentTypedWord"/>
     </form>
   </div>

@@ -17,7 +17,7 @@ export class RegisterComponent implements OnInit {
     email: new FormControl(null, [Validators.required, Validators.email]),
     password: new FormControl(null, [Validators.required]),
   });
-  errors: [] = []
+  errors: string[] = []
   token: TokenResponse | undefined
 
   constructor(
@@ -35,6 +35,10 @@ export class RegisterComponent implements OnInit {
     this.modalService.close(id);
   }
 
+  redirectToHome(){
+    this.router.navigate([''])
+  }
+
   register() {
     if (!this.registerForm.valid) {
       return;
@@ -44,13 +48,17 @@ export class RegisterComponent implements OnInit {
     this.authService.register(serializedRegisterForm).subscribe({
       next: data => {
         localStorage.setItem('token', data.token)
-        this.router.navigate([''])
         this.openModal('register-successful')
       },
       error: error => {
-        console.log(error.error.errors)
-        this.errors = error.error.errors || error.errors;
-        this.openModal('register-successful')
+        this.errors = []
+        let apiErrors = error.error.errors || error.errors || error.error.message || error.statusText;
+        if(apiErrors instanceof Array){
+          this.errors = apiErrors as []
+        }else{
+          this.errors.push(apiErrors)
+        }
+        this.openModal('register-failed')
       }
     })
   }

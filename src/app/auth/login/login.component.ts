@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
     email: new FormControl(null, [Validators.required, Validators.email]),
     password: new FormControl(null, [Validators.required]),
   });
-  errors: [] = []
+  errors: string[] = []
   token: string = 'null'
 
   constructor(
@@ -23,6 +23,10 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private modalService: ModalService
   ) {
+  }
+
+  redirectToHome(){
+    this.router.navigate([''])
   }
 
   openModal(id: string) {
@@ -42,13 +46,17 @@ export class LoginComponent implements OnInit {
     this.authService.login(serializedLoginForm).subscribe({
       next: data => {
         localStorage.setItem('token', data.token)
-        this.router.navigate([''])
         this.openModal('login-successful')
       },
       error: error => {
-        console.log(error.error.errors)
-        this.errors = error.error.errors || error.errors;
-        this.openModal('register-failed')
+        this.errors = []
+        let apiErrors = error.error.errors || error.errors || error.error.message || error.statusText;
+        if(apiErrors instanceof Array){
+          this.errors = apiErrors as []
+        }else{
+          this.errors.push(apiErrors)
+        }
+        this.openModal('login-failed')
       }
     })
   }

@@ -5,21 +5,21 @@
   <button
     class="btn"
     (keydown.space)="$event.preventDefault();"
-    (keyup.enter)="closeModal('custom-modal-2')"
+    (keyup.enter)="closeModal('login-failed')"
     style="height: 60px"
-    (click)="closeModal('custom-modal-2')">
+    (click)="closeModal('login-failed')">
     Close
   </button>
 </jw-modal>
 
 <jw-modal id="login-successful" style="text-align: center">
-  <h1>"You are now logged in"</h1>
+  <h1>You are now logged in</h1>
   <button
     class="btn"
     (keydown.space)="$event.preventDefault();"
-    (keyup.enter)="closeModal('login-successful')"
+    (keyup.enter)="redirectToHome()"
     style="height: 60px"
-    (click)="closeModal('login-successful')">
+    (click)="redirectToHome()">
     Close
   </button>
 </jw-modal>
