@@ -13,13 +13,13 @@
 </jw-modal>
 
 <jw-modal id="register-successful" style="text-align: center">
-  <h1>"Registration was successful"</h1>
+  <h1>Registration was successful</h1>
   <button
     class="btn"
     (keydown.space)="$event.preventDefault();"
-    (keyup.enter)="closeModal('register-successful')"
+    (keyup.enter)="redirectToHome()"
     style="height: 60px"
-    (click)="closeModal('register-successful')">
+    (click)="redirectToHome()">
     Close
   </button>
 </jw-modal>
@@ -30,13 +30,10 @@
 
   <div class="subtitle">Create your account</div>
 
-  <input type="name" style="display:none">
   <input type="name" placeholder="Name" class="input-field" formControlName="name"/>
 
-  <input type="email" style="display:none">
   <input type="email" placeholder="Email" class="input-field" formControlName="email"/>
 
-  <input type="password" style="display:none">
   <input type="password" placeholder="Password" class="input-field" formControlName="password"/>
 
   <button class="btn" type="submit" [disabled]="!registerForm.valid"><span>Register</span></button>

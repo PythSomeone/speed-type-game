@@ -5,6 +5,7 @@ import {formatNumber} from "@angular/common";
 import {GameStateService} from "./game-state.service";
 import {ModalService} from "../_modal";
 import {TimerService} from "./timer.service";
+import {ScoreService} from "./score.service";
 
 @Component({
   selector: 'app-game',
@@ -22,6 +23,10 @@ export class GameComponent implements OnInit {
   points = 0;
   score: string = '0'
   lastScore: string = '0'
+  showSuccessfulScoreSave = false;
+
+  errors: string[] = []
+  token: string = 'null'
 
   timerStateSubscription: Subscription | undefined
   stateSubscription: Subscription | undefined
@@ -30,24 +35,22 @@ export class GameComponent implements OnInit {
     public wordService: WordService,
     public gameStateService: GameStateService,
     public modalService: ModalService,
-    public timerService: TimerService
+    public timerService: TimerService,
+    private scoreService: ScoreService
   ) {
     this.current?.nativeElement.focus()
   }
 
   ngOnInit(): void {
-
     this.loadWords()
-
-
     this.stateSubscription = this.gameStateService.observable.subscribe(state => {
       if (state) {
         this.loadWords()
-
       }
     })
     this.timerStateSubscription = this.timerService.observable.subscribe(state => {
       if (state) {
+        this.score = this.calculateWordsPerMinute()
         this.current?.nativeElement.blur()
         this.lastScore = this.score
         this.openModal('custom-modal-2')
@@ -57,10 +60,25 @@ export class GameComponent implements OnInit {
         this.score = '0'
       }
     })
-
-
   }
 
+  saveScore(score:number){
+    const scoreObject:Object = {score:score}
+    const serializedScore = JSON.stringify(scoreObject)
+    this.scoreService.setScore(serializedScore).subscribe({
+      next: data => {
+        this.showSuccessfulScoreSave = true
+      },
+      error: error => {
+        let apiErrors = error.error.errors || error.errors || error.statusText;
+        if(apiErrors instanceof Array){
+          this.errors = apiErrors as []
+        }else{
+          this.errors.push(apiErrors)
+        }
+      }
+    })
+  }
 
   loadWords() {
     this.words = this.wordService.getWords();
@@ -77,17 +95,15 @@ export class GameComponent implements OnInit {
   closeModal(id: string) {
     this.modalService.close(id);
     this.current?.nativeElement.focus()
+    this.showSuccessfulScoreSave = false
   }
 
   onKey(event: any = " ") {
     let typedWord = event.target.value
-
     if (!(typedWord[0] === undefined)) {
-
       if (!this.timerService.getTimerSet() && !typedWord[0].includes('\n')) {
         this.timerService.observableTimer()
       }
-
       let element = document.getElementById(this.currentWordIndex.toString())
       if (typedWord[typedWord.length - 1].includes(' ', '\t')) {
         if (typedWord.slice(0, -1).toString() == this.currentWord) {
@@ -96,13 +112,11 @@ export class GameComponent implements OnInit {
         } else {
           element!.className = "red-text"
         }
-
         this.score = this.calculateWordsPerMinute();
         this.currentTypedWord = ''
-
         if (this.words.length === this.currentWordIndex + 1) {
           this.gameStateService.setState(true)
-        }else {
+        } else {
           this.currentWord = this.words[++this.currentWordIndex]
 
           element = document.getElementById(this.currentWordIndex.toString())
@@ -110,17 +124,18 @@ export class GameComponent implements OnInit {
             element!.className = "current-word"
           }
         }
-
-
       }
-
-
     }
-
-
   }
-  private calculateWordsPerMinute(){
-    let wordsPerMinute = this.points / ((this.timerService.getTimeLeft() - this.timerService.getSubscribeTimer()) / 60)
-    return formatNumber(wordsPerMinute, 'en-US', '1.0-1')
+
+  private calculateWordsPerMinute() {
+    let wordsPerMinute:number
+    if(this.timerService.getTimeLeft() == this.timerService.getSubscribeTimer()){
+      wordsPerMinute = this.points / (this.timerService.getTimeLeft()/60)
+    }
+    else{
+      wordsPerMinute = this.points / ((this.timerService.getTimeLeft() - this.timerService.getSubscribeTimer()) / 60)
+    }
+    return formatNumber(wordsPerMinute, 'en-US', '1.0-2')
   }
 }
