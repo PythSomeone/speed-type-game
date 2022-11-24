@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import {ScoreService} from "../services/score.service";
 import {Score} from "../_models/Score";
 import {ScoreList} from "../_models/ScoreList";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-score-list',
@@ -15,11 +16,14 @@ export class ScoreListComponent implements OnInit {
     private scoreService:ScoreService
   ) { }
 
-  scoreList: ScoreList = new ScoreList([new Score('test',10,'time')]);
+  loading: boolean = false;
+  scoreList: ScoreList = new ScoreList([]);
 
   ngOnInit(): void {
+    this.loading = true;
     this.scoreService.getScore().subscribe(next => {
-      this.scoreList = next
+      this.scoreList = next;
+      this.loading = false;
     });
   }
 
