@@ -5,7 +5,7 @@ import {formatNumber} from "@angular/common";
 import {GameStateService} from "./game-state.service";
 import {ModalService} from "../_modal";
 import {TimerService} from "./timer.service";
-import {ScoreService} from "./score.service";
+import {ScoreService} from "../services/score.service";
 
 @Component({
   selector: 'app-game',
@@ -30,6 +30,7 @@ export class GameComponent implements OnInit {
 
   timerStateSubscription: Subscription | undefined
   stateSubscription: Subscription | undefined
+  enableSubmitButton: boolean = true;
 
   constructor(
     public wordService: WordService,
@@ -45,6 +46,7 @@ export class GameComponent implements OnInit {
     this.loadWords()
     this.stateSubscription = this.gameStateService.observable.subscribe(state => {
       if (state) {
+        this.enableSubmitButton = true;
         this.loadWords()
       }
     })
@@ -67,10 +69,14 @@ export class GameComponent implements OnInit {
     const serializedScore = JSON.stringify(scoreObject)
     this.scoreService.setScore(serializedScore).subscribe({
       next: data => {
-        this.showSuccessfulScoreSave = true
+        this.enableSubmitButton = false;
+        this.showSuccessfulScoreSave = true;
+        console.log(data)
+        console.log(this.enableSubmitButton)
       },
       error: error => {
-        let apiErrors = error.error.errors || error.errors || error.statusText;
+        console.log(error)
+        let apiErrors = error.error.errors || error.errors || error.error.message|| error.statusText;
         if(apiErrors instanceof Array){
           this.errors = apiErrors as []
         }else{
@@ -96,6 +102,7 @@ export class GameComponent implements OnInit {
     this.modalService.close(id);
     this.current?.nativeElement.focus()
     this.showSuccessfulScoreSave = false
+    this.errors = []
   }
 
   onKey(event: any = " ") {

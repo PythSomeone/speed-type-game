@@ -1,6 +1,7 @@
 html, body {
   font-family: 'Courier New', monospace;
-  height:100vh;
+  height:auto;
+  min-height: 100vh;
   padding: 0;
   display: grid;
   row-gap: 50px;
