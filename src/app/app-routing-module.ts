@@ -4,6 +4,7 @@ import {TitleComponent} from "./title/title.component";
 import {GameComponent} from "./game/game.component";
 import {LoginComponent} from "./auth/login/login.component";
 import {RegisterComponent} from "./auth/register/register.component";
+import {ScoreListComponent} from "./score-list/score-list.component";
 
 
 const routes: Routes = [
@@ -11,6 +12,7 @@ const routes: Routes = [
   {path: 'game', component: GameComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
+  {path: 'score-list', component: ScoreListComponent},
 
 
 ]
