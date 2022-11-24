@@ -4,7 +4,13 @@
   <br>
   <p>Your score is</p>
   <h1>WPM : {{lastScore}}</h1>
-  <button class="btn" style="height: 60px" (click)="saveScore(+lastScore)">Save score</button>
+  <button
+    class="btn"
+    style="height: 60px"
+    [disabled]="!enableSubmitButton"
+    (click)="saveScore(+lastScore)">
+    Save score
+  </button>
   <button
     class="btn"
     #btnFocus [autofocus]="btnFocus.focus()"
@@ -69,7 +75,7 @@
   </div>
   <div class="stats-box">
     <div class="stat">
-      Guessed words:
+      Correct words:
       <br>
       {{points}}
     </div>

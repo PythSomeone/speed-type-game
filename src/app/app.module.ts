@@ -11,6 +11,7 @@ import {LoginComponent} from './auth/login/login.component';
 import {RegisterComponent} from './auth/register/register.component';
 import {AuthService} from "./services/auth.service";
 import {HttpClientModule} from "@angular/common/http";
+import { ScoreListComponent } from './score-list/score-list.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {HttpClientModule} from "@angular/common/http";
     TitleComponent,
     GameComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ScoreListComponent
   ],
   imports: [
     BrowserModule,

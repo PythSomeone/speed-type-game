@@ -1,0 +1,44 @@
+h2 {
+  text-align: center;
+}
+.responsive-table{
+  overflow-y:auto;
+  width: 50%;
+  padding: 15px;
+}
+
+:host {
+  display: contents;
+}
+
+li {
+  border-radius: 3px;
+  padding: 25px 30px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+.table-header {
+  background-color: var(--btn-colour);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  box-shadow: var(--container-shadow);
+}
+.table-row {
+  background-color: var(--translucent-container);
+  box-shadow: var(--container-shadow);
+}
+.col-1 {
+  flex-basis: 10%;
+}
+.col-2 {
+  flex-basis: 40%;
+}
+.col-3 {
+  flex-basis: 25%;
+}
+.col-4 {
+  flex-basis: 25%;
+}
+

@@ -13,7 +13,7 @@ export class AuthService {
   ) {
   }
 
-  baseUrl: string = 'http://127.0.0.1:3000/api/users'
+  baseUrl: string = 'https://speed-type-game-backend-production.up.railway.app/api/users'
 
   login(body: string): Observable<TokenResponse> {
     let headers = new HttpHeaders({'Content-Type': 'application/json'}); // ... Set content type to JSON
