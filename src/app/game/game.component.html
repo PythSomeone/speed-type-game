@@ -6,7 +6,6 @@
   <h1>WPM : {{lastScore}}</h1>
   <button
     class="btn"
-    style="height: 60px"
     [disabled]="!enableSubmitButton"
     (click)="saveScore(+lastScore)">
     Save score
@@ -16,7 +15,6 @@
     #btnFocus [autofocus]="btnFocus.focus()"
     (keydown.space)="$event.preventDefault();"
     (keyup.enter)="closeModal('custom-modal-2')"
-    style="height: 60px"
     (click)="closeModal('custom-modal-2')">
     Close
   </button>
@@ -33,7 +31,6 @@
     #btnFocus [autofocus]="btnFocus.focus()"
     (keydown.space)="$event.preventDefault();"
     (keyup.enter)="closeModal('set-score-successful')"
-    style="height: 60px"
     (click)="closeModal('set-score-successful')">
     Close
   </button>
@@ -48,7 +45,6 @@
     #btnFocus [autofocus]="btnFocus.focus()"
     (keydown.space)="$event.preventDefault();"
     (keyup.enter)="closeModal('set-score-failed')"
-    style="height: 60px"
     (click)="closeModal('set-score-failed')">
     Close
   </button>

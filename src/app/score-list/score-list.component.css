@@ -6,7 +6,12 @@ h2,h3 {
   width: 50%;
   padding: 15px;
 }
-
+@media screen and (max-width: 600px) {
+  .responsive-table {
+    width: 100% !important;
+    padding: 0;
+  }
+}
 :host {
   display: contents;
 }
