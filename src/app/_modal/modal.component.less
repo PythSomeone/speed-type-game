@@ -4,7 +4,15 @@ jw-modal {
   /* modals are hidden by default */
   display: none;
 
+  @media screen and (max-width: 800px) {
+    .jw-modal {
+      width: 100% !important;
+      .jw-modal-body {
+        margin: 40px 0 !important;
+      }
+    }
 
+  }
   .jw-modal {
     /* modal container fixed across whole screen */
 

@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {WordService} from "./word.service";
 import {Subscription} from "rxjs";
 import {formatNumber} from "@angular/common";
@@ -12,7 +12,7 @@ import {ScoreService} from "../services/score.service";
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, OnDestroy {
   @ViewChild('current') current: ElementRef | undefined;
 
 
@@ -42,6 +42,10 @@ export class GameComponent implements OnInit {
     this.current?.nativeElement.focus()
   }
 
+  ngOnDestroy(): void {
+    this.timerService.resetTimer()
+  }
+
   ngOnInit(): void {
     this.loadWords()
     this.stateSubscription = this.gameStateService.observable.subscribe(state => {
@@ -56,30 +60,29 @@ export class GameComponent implements OnInit {
         this.current?.nativeElement.blur()
         this.lastScore = this.score
         this.openModal('custom-modal-2')
-
         this.loadWords()
         this.points = 0
         this.score = '0'
       }
     })
+
   }
 
-  saveScore(score:number){
-    const scoreObject:Object = {score:score}
+
+  saveScore(score: number) {
+    const scoreObject: Object = {score: score}
     const serializedScore = JSON.stringify(scoreObject)
     this.scoreService.setScore(serializedScore).subscribe({
       next: data => {
+
         this.enableSubmitButton = false;
         this.showSuccessfulScoreSave = true;
-        console.log(data)
-        console.log(this.enableSubmitButton)
       },
       error: error => {
-        console.log(error)
-        let apiErrors = error.error.errors || error.errors || error.error.message|| error.statusText;
-        if(apiErrors instanceof Array){
+        let apiErrors = error.error.errors || error.errors || error.error.message || error.statusText;
+        if (apiErrors instanceof Array) {
           this.errors = apiErrors as []
-        }else{
+        } else {
           this.errors.push(apiErrors)
         }
       }
@@ -136,11 +139,10 @@ export class GameComponent implements OnInit {
   }
 
   private calculateWordsPerMinute() {
-    let wordsPerMinute:number
-    if(this.timerService.getTimeLeft() == this.timerService.getSubscribeTimer()){
-      wordsPerMinute = this.points / (this.timerService.getTimeLeft()/60)
-    }
-    else{
+    let wordsPerMinute: number
+    if (this.timerService.getTimeLeft() == this.timerService.getSubscribeTimer()) {
+      wordsPerMinute = this.points / (this.timerService.getTimeLeft() / 60)
+    } else {
       wordsPerMinute = this.points / ((this.timerService.getTimeLeft() - this.timerService.getSubscribeTimer()) / 60)
     }
     return formatNumber(wordsPerMinute, 'en-US', '1.0-2')
