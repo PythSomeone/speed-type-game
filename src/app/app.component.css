@@ -38,6 +38,12 @@ html, body {
   text-align: center;
   align-self: center;
   justify-self: center;
+  cursor: pointer;
+}
+
+.title-box:hover {
+  background-size: 120%;
+  background-position: 50%;
 }
 
 

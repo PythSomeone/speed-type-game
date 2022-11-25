@@ -8,13 +8,14 @@
       <div class="col col-3">Score</div>
       <div class="col col-4">Date</div>
     </li>
+    <h3 class="center" *ngIf="loading">LOADING</h3>
+    <h3 *ngIf="!scoreList.scoreList.length && !loading">No high scores established</h3>
     <li class="table-row" *ngFor="let item of scoreList!.scoreList; let i = index">
       <div class="col col-1" data-label="No.">{{i+1}}</div>
       <div class="col col-2" data-label="User">{{item.user}}</div>
       <div class="col col-3" data-label="Score">{{item.score}}</div>
       <div class="col col-4" data-label="Date">{{item.createdAt.substring(0, 10)}}</div>
     </li>
-
   </ul>
 
 
