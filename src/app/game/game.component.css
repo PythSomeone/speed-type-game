@@ -62,10 +62,10 @@ input {
   color: darkred;
 }
 
-.current-word, #\{\{0\}\} {
+.current-word{
   color: orange;
-  font-size: larger;
 }
+
 
 
 
